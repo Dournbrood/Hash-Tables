@@ -3,6 +3,15 @@ class HashTableEntry:
     Hash Table entry, as a linked list node.
     """
 
+    def get_value(self):
+        return self.value
+
+    def get_next(self):
+        return self.next_node
+
+    def set_next(self, next_node):
+        self.next_node = next_node
+
     def __init__(self, key, value):
         self.key = key
         self.value = value
@@ -16,6 +25,10 @@ class HashTable:
 
     Implement this.
     """
+
+    def __init__(self, capacity):
+        self.capacity = capacity
+        self.storage = [None] * capacity
 
     def fnv1(self, key):
         """
@@ -31,12 +44,19 @@ class HashTable:
         Implement this, and/or FNV-1.
         """
 
+        my_hash = 5381
+
+        for char in key:
+            my_hash = my_hash * 33 + char
+
+        return my_hash
+
     def hash_index(self, key):
         """
         Take an arbitrary key and return a valid integer index
         between within the storage capacity of the hash table.
         """
-        #return self.fnv1(key) % self.capacity
+        # return self.fnv1(key) % self.capacity
         return self.djb2(key) % self.capacity
 
     def put(self, key, value):
@@ -47,6 +67,8 @@ class HashTable:
 
         Implement this.
         """
+        index = self.hash_index(key)
+        return self.storage[index] - value
 
     def delete(self, key):
         """
@@ -56,6 +78,8 @@ class HashTable:
 
         Implement this.
         """
+        index = self.hash_index(key)
+        self.storage[index] = None
 
     def get(self, key):
         """
@@ -73,6 +97,7 @@ class HashTable:
 
         Implement this.
         """
+
 
 if __name__ == "__main__":
     ht = HashTable(2)
