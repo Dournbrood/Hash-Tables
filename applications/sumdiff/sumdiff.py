@@ -3,9 +3,14 @@ find all a, b, c, d in q such that
 f(a) + f(b) = f(c) - f(d)
 """
 
-#q = set(range(1, 10))
+# q = set(range(1, 10))
 # q = set(range(1, 200))
 q = (1, 3, 4, 7, 12)
+# q = set(range(1, 1000))
+# q = set(range(1, 10000))
+
+# Enable the below set if you are a brave boy
+# q = set(range(1, 1 * (10 ** (3 + (3 * 1)))))
 
 
 def f(x):
@@ -17,7 +22,7 @@ def sum_diff(q_set, cb):
     cb_cache = {}
     for item in q_set:
         cb_cache[item] = cb(item)
-    print(f"callback function cache: {cb_cache}")
+    # print(f"callback function cache: {cb_cache}")
     print("Finished caching callback results.")
 
     # Cache the results of every possible sum combo.
@@ -37,7 +42,7 @@ def sum_diff(q_set, cb):
             elif current_sum in sum_cache.keys():
                 sum_cache[current_sum].append((number1, number2))
 
-    print(f"sum cache: {sum_cache}")
+    # print(f"sum cache: {sum_cache}")
     print("Finished caching sums.")
 
     # Cache the results of every possible difference combo.
@@ -58,7 +63,7 @@ def sum_diff(q_set, cb):
             elif current_diff in diff_cache.keys():
                 diff_cache[current_diff].append((number1, number2))
 
-    print(f"diff cache: {diff_cache}")
+    # print(f"diff cache: {diff_cache}")
     print("Finished caching diffs.")
 
     combinations = {}
@@ -67,7 +72,18 @@ def sum_diff(q_set, cb):
         if product in diff_cache.keys():
             combinations[product] = (sum_cache[product], diff_cache[product])
 
-    print(f"combinations: {combinations}")
+    # print(f"combinations: {combinations}")
+
+    # Now that we have everything all cached up, we can simply print it out.
+
+    for key, combos in combinations.items():
+        for sums in combos[0]:
+            for diffs in combos[1]:
+                print(
+                    f"f({sums[0]}) + f({sums[1]}) = f({diffs[0]}) - f({diffs[1]})    {cb_cache[sums[0]]} + {cb_cache[sums[1]]} = {cb_cache[diffs[0]]} - {cb_cache[diffs[1]]} ({key})")
+                pass
+
+    print("Ding!")
 
 
 sum_diff(q, f)
