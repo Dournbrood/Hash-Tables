@@ -1,5 +1,19 @@
-def no_dups(s):
-    # Implement me.
+def no_dups(str):
+
+    split_str = str.lower().split()
+
+    cache = {}
+
+    result = []
+
+    for word in split_str:
+        n = word
+
+        if n not in cache:
+            cache[n] = 1
+            result.append(n)
+
+    return " ".join(result)
 
 
 if __name__ == "__main__":
